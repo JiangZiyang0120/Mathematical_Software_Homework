@@ -1,0 +1,140 @@
+\documentclass{ctexart}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{ctex}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+
+\title{作业一: 洛必达法则的叙述与证明}
+
+
+\author{杨泽加 \\ 统计学 3190104662}
+
+\begin{document}
+
+    \maketitle
+
+    \begin{tabular}{p{0.9\columnwidth}}
+        这是一个来自微积分学领域的问题，常用于计算具有不定型积分的极限的方法。
+        该法则以法国数学家纪尧姆.德.洛必达的名字命名,
+        但实际上是由瑞士数学家约翰.伯努利发现。
+    \end{tabular}
+
+
+    \section{问题描述}
+    \begin{tabular}{p{0.9\columnwidth}}
+        令$c\in \bar{\mathbb{R}}$，两函数$f(x),g(x)$在以$x=c$为端点的开区间可微，存在 \\
+        \begin{equation}
+            \lim_{x\rightarrow c}\frac{f'(x)}{g'(x)}\in\bar{\mathbb{R}},g'(x)\neq 0
+            \label{declaration1}
+        \end{equation}
+        若$\lim_{x\rightarrow c}f(x) = \lim_{x\rightarrow c}g(x) = 0$或
+        $\lim_{x\rightarrow c}|f(x)| = \lim_{x\rightarrow c}|g(x)| = \infty$
+        其中一者成立，则有欲求的极限
+        \begin{equation}
+            \lim_{x\rightarrow c}\frac{f(x)}{g(x)} =
+            \lim_{x\rightarrow c}\frac{f'(x)}{g'(x)}
+            \label{declaration2}
+        \end{equation}
+    \end{tabular}
+
+
+    \section{证明}
+    \begin{tabular}{p{0.9\columnwidth}}
+        令
+        \begin{equation}
+            l = \lim_{x\rightarrow a^+}\frac{f'(x)}{g'(x)}
+            \label{definition1}
+        \end{equation}
+        我们只对$l$有限的情况证明，当$l = +\infty$或$-\infty$时，证明是类似的。 \\
+        先证明$\lim_{x\rightarrow\infty}f(x) = \lim_{x\rightarrow\infty}g(x) = 0$
+        条件的式子：
+        由定义知:对于任意$\varepsilon>0$，存在$\delta > 0$，当$x\in(a,a+\delta)$时，有：
+        \begin{equation}
+            l-\varepsilon < \frac{f'(x)}{g'(x)} < l + \varepsilon
+            \label{equation1}
+        \end{equation}
+        所以对于$(x,x_0)\in(a,a+\delta)$，由Cauchy中值定理，必然有$\xi\in(x,x_0)$，使得：
+        \begin{equation}
+            l-\varepsilon < \frac{f(x) - f(x_0)}{g(x) - g(x_0)} =
+            \frac{f'(\xi)}{g'(\xi)} < l + \varepsilon
+            \label{equation2}
+        \end{equation}
+        由恒等变形，我们有：
+        \begin{equation}
+            \frac{f(x)-f(x_0)}{g(x)-g(x_0)} =
+            \frac{\frac{f(x)}{g(x) - \frac{f(x_0)}{g(x)}}}
+            {1 - \frac{g(x_0)}{g(x)}}
+            \label{equation3}
+        \end{equation}
+        令 $x+0\rightarrow a$，我们有：$1-\frac{g(x_0)}{g(x)}\rightarrow1$。
+        所以我们有：
+        \begin{equation}
+            \overline{\lim_{x\rightarrow a^+}}\frac{f(x)}{g(x)}\leqslant l+\varepsilon
+            \label{equation4}
+        \end{equation}
+        由$\varepsilon$的任意性，我们有
+        \begin{equation}
+            \overline{\lim_{x\rightarrow a^+}}\frac{f(x)}{g(x)}\leqslant l
+            \label{equation5}
+        \end{equation}
+        同理可得
+        \begin{equation}
+            \underline{\lim}_{x\rightarrow a^+}\frac{f(x)}{g(x)}\geqslant l+\varepsilon
+            \label{equation6}
+        \end{equation}
+        结合式\eqref{definition1}有$\lim_{x\rightarrow a^+}\frac{f(x)}{g(x)} = l$。证毕。 \\
+        接下来证明当$\lim_{x\rightarrow\infty}\frac{f(x)}{g(x)} = l$的情况：
+        存在恒等变形：
+        \begin{equation}
+            \begin{aligned}
+                \frac{f(x)}{g(x)} &= \frac{f(x) - f(x_0)}{g(x)} + \frac{f(x_0)}{g(x)}\\
+                &= \frac{g(x) - g(x_0)}{g(x)}\cdot\frac{f(x) - f(x_0)}{g(x) - g(x_0)}
+                + \frac{f(x_0)}{g(x)}\\
+                &= \left[ 1 - \frac{g(x_0)}{g(x)} \right]\frac{f(x) - f(x_0)}{g(x) - g(x_0)}
+                + \frac{f(x_0)}{g(x)}
+            \end{aligned}
+            \label{equation7}
+        \end{equation}
+    \end{tabular}
+    \newpage
+    \begin{tabular}{p{0.9\columnwidth}}
+        于是，我们有：
+        \begin{equation}
+            \begin{aligned}
+                \left| \frac{f(x)}{g(x)} - l \right| &=
+                \left| \left( 1 - \frac{g(x_0)}{g(x)} \right)
+                \frac{f(x) - f(x_0)}{g(x) - g(x_0)} + \frac{f(x_0)}{g(x)} - l \right|\\
+                &\leqslant \left| 1 - \frac{g(x_0)}{g(x)} \right|\cdot
+                \left| \frac{f(x) - f(x_0)}{g(x) - g(x_0)} - l \right|
+                + \left| \frac{f(x_0) - lg(x_0)}{g(x)} \right|
+            \end{aligned}
+            \label{equation8}
+        \end{equation}
+        由于：
+        \begin{equation}
+            \left| \frac{f(x) - f(x_0)}{g(x) - g(x_0)} - l \right|
+            = \left| \frac{f'(\xi)}{g'(\xi)} - l \right| < \varepsilon
+            \label{equation9}
+        \end{equation}
+        又由条件：$\lim_{x\rightarrow a^+}g(x) = \infty$，所以当$x$足够接近$a$时，
+        \begin{equation}
+            \begin{aligned}
+                &\left| 1 - \frac{g(x_0)}{g(x)} \right| < C\\
+                &\lim_{x\rightarrow a^+}\left|
+                \frac{f(x) - f(x_0)}{g(x) - g(x_0)} - l \right| = 0\\
+                &\lim_{x\rightarrow a^+}\left| \frac{f(x_0) - g(x_0)}{g(x)} \right| = 0
+            \end{aligned}
+            \label{equation10}
+        \end{equation}
+        故：
+        \begin{equation}
+            \lim_{x\rightarrow a^+}\frac{f(x)}{g(x)} = l =
+            \lim_{x\rightarrow a^+}\frac{f'(x)}{g'(x)}
+            \label{equation11}
+        \end{equation}
+        Q.E.D
+    \end{tabular}
+\end{document}
