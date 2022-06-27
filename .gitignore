@@ -6,8 +6,8 @@
 *.err
 
 //指定不跟踪的文件及文件夹
-./cmake-build-debug/*
-./CMakeLists.txt
-./main.cpp
-./out/*
-
+cmake-build-debug/*
+CMakeLists.txt
+main.cpp
+out/*
+idea/*
