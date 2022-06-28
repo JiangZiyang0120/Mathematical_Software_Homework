@@ -1,0 +1,117 @@
+%! Author = jiang-ziyang
+%! Date = 22-6-28
+\documentclass{ctexart}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{ctex}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,  % 字符串风格
+    flexiblecolumns,
+    breaklines          =   true, %对过长的代码自动换行
+    numbers             =   left,   % 行号的位置在左边
+    showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,   % 显示边框
+}
+
+
+\title{作业二：自动移动文件}
+
+
+\author{杨泽加 \\ 统计学 3190104662}
+
+\begin{document}
+
+    \maketitle
+
+
+    \section{问题介绍：}
+    \begin{tabular}{p{\columnwidth}}
+        我在ubuntu系统下搭载了一个hexo博客的本地库。但出于写作习惯，我经常在windows系统
+        下的obsidian软件里写博客。如何更“自动化”地同步我的文件就成为了一件需要解决的问题。     \\
+        我将我obsidian的所有文章都通过git上传到一个private repo中，然后通过git的
+        sparsecheckout功能将存储博客文件的两个文件夹 ./blog\_updating/ 和
+        ./blog\_complete/ clone 到我的hexo 博客的./source/ 文件夹中。 \\
+        接下来，我需要将这两个文件夹内（如果git repo有更改的话）的文件移动到我的./source/
+        文件目录下，然后删去两个文件夹以避免干扰到博客渲染工作。有时候，我还需要知道更改了哪些文件。     \\
+        这些工作在命令行上都能很好地完成，但都需要多条指令。所以我便产生了将它们写成脚本的想法。
+    \end{tabular}\\
+
+
+    \section{代码如下：}
+    \begin{lstlisting}
+#! /bin/bash
+
+# pull the blog from remote repo
+# and get the return string
+information=`git pull origin main`
+
+# if there is nothing changed
+# we needn't to operate
+
+if [ "$information" = "已经是最新的。" ]; then
+    echo "There isn't uploaded blog in the remote repo"
+    exit 0
+else
+    # else we need to move the changed file into ./ directory
+    # the blog file dire is ./blog_updating and ./blog_completing
+    for direc in $(ls); do
+        if [ -d $direc ]; then
+            echo "in directory $direc, file:"
+            for file in ./$direc/*; do
+                echo -n "$file; "
+            done
+            mv ./$direc/* ./
+            rm -rf ./$direc
+            echo "moved successfully"
+        fi
+    done
+
+    echo "blog source uploaded successfully"
+fi
+
+exit 0
+    \end{lstlisting}
+
+
+    \section{测试结果：}
+    \begin{tabular}{p{\columnwidth}}
+        当有文件更新时，shell script会自动从git repo pull更新过的博文，并将它们转移到
+        我的./source/ 目录下。并告诉我转移的文件名。\\
+        示例如下：
+        若git有更新文件则转移文件并返回
+    \end{tabular}\\
+    \begin{lstlisting}
+来自 github.com:JiangZiyang0120/obsidian
+ * branch            main       -> FETCH_HEAD
+in directory blog_complete, file:
+./blog_complete/linus如何通过SMTP服务器发送QQ邮件.md; moved successfully
+in directory blog_updating, file:
+./blog_updating/机器学习.md; ./blog_updating/黎明静悄悄.md; ./blog_updating/也许_无问西东.md; moved successfully
+blog source uploaded successfully
+    \end{lstlisting}
+    \begin{tabular}{p{\columnwidth}}
+        否则返回（事实上再运行一次即可）：
+    \end{tabular}\\
+    \begin{lstlisting}
+来自 github.com:JiangZiyang0120/obsidian
+ * branch            main       -> FETCH_HEAD
+There isn't uploaded blog in the remote repo
+    \end{lstlisting}
+
+    \section{总结：}
+    \begin{tabular}{p{\columnwidth}}
+        通过上述脚本的练习，我学到了script变量的使用，if、for循环的使用方式等。
+        同时，它也给了我一个方便的工具管理我的hexo博客博文。\\
+    \end{tabular}
+\end{document}
