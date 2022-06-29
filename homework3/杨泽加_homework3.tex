@@ -1,0 +1,113 @@
+%! Author = jiang-ziyang
+%! Date = 22-6-28
+
+% Preamble
+\documentclass{ctexart}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[backref]{hyperref}
+\usepackage{cite}
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,  % 字符串风格
+    flexiblecolumns,
+    breaklines          =   true, %对过长的代码自动换行
+    numbers             =   left,   % 行号的位置在左边
+    showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,   % 显示边框
+}
+
+
+
+\title{Linux工作环境的介绍}
+
+\author{杨泽加 \\ 统计学 3190104662}
+
+
+% Document
+\begin{document}
+    \bibliographystyle{IEEEtran}
+
+    \maketitle
+    \section{我的Linux发行版本名称及版本号}\label{S1}
+    \begin{tabular}{p\columnwidth}
+        通过shell命令 'uname \-a' 获取到我的发行版本名称为\textbf{ubuntu}，
+        发行版本号为 5.11.0
+    \end{tabular}\\
+    \begin{lstlisting}
+$ uname -a
+Linux ubuntu 5.11.0-46-generic #51~20.04.1-Ubuntu SMP Fri Jan 7 06:51:40 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+    \end{lstlisting}
+    \section{我的Linux的配置工作}\label{S2}
+    \begin{tabular}{p\columnwidth}
+        我为我的linux装配了基本的编译器，如python、GCC、clang等，用于编译我的代码。\\
+        于此同时，我在linux上部署了一个hexo博客的本地库，需要用到npm包管理器和hexo渲染器。\\
+        当然，我在写代码时也会用到许多库。得益于linux较好的包管理模式，我很少需要更改系统PATH变量\\
+        这些包数量较多，难以一一枚举，有openCV\cite{openCV.org}、Eigen3等。\\
+        同样的，我也安装了texlive环境以便我方便地编辑和管理内容。\cite{patashnik1984bibtex}
+    \end{tabular}\\
+    \begin{lstlisting}
+~$ python -V
+Python 2.7.18
+~$ gcc -V
+gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.1)
+~$ clang -v
+clang version 10.0.0-4ubuntu1
+Target: x86_64-pc-linux-gnu
+~$ npm -v
+6.14.17
+~$ hexo -v
+hexo-cli: 4.3.0
+os: linux 5.11.0-46-generic Ubuntu 20.04.4 LTS (Focal Fossa)
+    \end{lstlisting}
+    \begin{tabular}{p\columnwidth}
+        我的linux系统上装配的软件也以IDE为主。有vim和emacs。但我还是习惯使用
+        jetbrains系列的的pycharm、clion和 Rider。其中Rider是虚幻引擎
+        Unreal Engine的IDE。同时，我的linux中还编译了QT、UE4
+        用于处理偶尔需要的简单动画。\\
+        我还安装了typora等markdown文件编辑器。
+    \end{tabular}
+    \section{对于下一步工作的规划}\label{S3}
+    \subsection{下半年使用linux的场景}\label{S3.1}
+    \begin{tabular}{p\columnwidth}
+        我下半年的主要工作还是考研。出于我考研科目的学习需求，我需要练习我的代码和
+        算法能力。我目前较为熟练的计算机语言为C++和python;我均在linux系统内部署了
+        较为舒适的环境和IDE。未来有其它需求包也很容易配置。\\
+        另外，考虑到我有学习计算机网络的需求，我未来可能会搭建一个树莓派的linux服务器。
+        因此仍需学习一些服务器管理工具的使用。\cite{RaspberryPie}\\
+        另外，我在该linux系统下部署的hexo博客本地文件也需要探索更多的自动化工作流。
+    \end{tabular}
+    \subsection{我的工作环境是否符合未来需求}\label{S3.2}
+    \begin{tabular}{p\columnwidth}
+        目前我的工作环境配置较为齐全和方便。拥有丰富的编译、计算机动画、AI方面的软件和包。
+        同时，得益于git工具和github的帮助，我能够轻松地在linux虚拟机和windows10系统中
+        协调我的工作。我认为自己仍需学习linux操作系统的功能，并练习诸如LaTeX、UE4等软件。
+        但我的linux系统配置已经足以满足我目前所能想到的所有需求了。\\
+        需要作出的改变是我需要在我的linux系统中配置科学上网工具。这样就不用切回windows
+        系统查阅网页了。也能够更方便我使用git工具。
+    \end{tabular}
+    \section{如何保证我的工作系统中的代码、文献和工作结果的安全}\label{S4}
+    \begin{tabular}{p\columnwidth}
+        首先，我拥有一个以上的linux虚拟机。对于一些软件，我会选择先将它部署在我的测试
+        虚拟机中，如果没有安全问题再下载/更新至我的主机中。对于软件下载，尽可能
+        以编译的方式安装。同时注意软件安装目录的选择，确保自己能够安全地卸载和再部署。\\
+        其次，对重要的文件进行备份。我会每隔两到三个月将自己的vm文件备份到我的移动硬盘里。
+        许多文件也会通过git上传到github repo里。以避免损失文件的后果。\\
+        配置防火墙，防火墙中关键要素有：源IP、目的IP、协议、源端口、目的端口、网卡，
+        通过对这几个要素的配置，能有效控制来自外部的攻击及内部的资料泄漏。\\
+        尽管我目前没有远程登录ssh的需求，但对此，可以通过修改ssh端口、ssh key认证、禁止root
+        用户登录或ssh白名单等方式来保障自己的文件安全和系统不被入侵。\cite{OnlineSafe}
+    \end{tabular}
+    \bibliography{reference}
+\end{document}
