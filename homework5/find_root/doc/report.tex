@@ -1,0 +1,66 @@
+%! Author = jiang-ziyang
+%! Date = 22-7-2
+
+% Preamble
+\documentclass{ctexart}
+
+% Packages
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[backref]{hyperref}
+\usepackage{cite}
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,  % 字符串风格
+    flexiblecolumns,
+    breaklines          =   true, %对过长的代码自动换行
+    numbers             =   left,   % 行号的位置在左边
+    showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,   % 显示边框
+}
+
+\title{roots.c功能分析}
+\author{杨泽加 \\ 3190104662}
+
+% Document
+\begin{document}
+    \maketitle
+
+    \begin{tabular}{p\columnwidth}
+        这是一个求根公式的测试用例，通过二分法获得5的求根迭代结果。\\
+        它的输出如下：
+    \end{tabular}\\
+    \begin{lstlisting}
+using brent method
+ iter [    lower,     upper]      root        err  err(est)
+    1 [1.0000000, 5.0000000] 1.0000000 -1.2360680 4.0000000
+    2 [1.0000000, 3.0000000] 3.0000000 +0.7639320 2.0000000
+    3 [2.0000000, 3.0000000] 2.0000000 -0.2360680 1.0000000
+    4 [2.2000000, 3.0000000] 2.2000000 -0.0360680 0.8000000
+    5 [2.2000000, 2.2366300] 2.2366300 +0.0005621 0.0366300
+Converged:
+    6 [2.2360634, 2.2366300] 2.2360634 -0.0000046 0.0005666
+    \end{lstlisting}
+    \begin{tabular}{p\columnwidth}
+        如上所示，其中 iter 是迭代次数， [lower, upper]是迭代区间，
+        root 是跟， err 是root值与真值的误差， err(est)是区间长度。\\
+        由代码
+    \end{tabular}\\
+    \begin{lstlisting}
+        int iter = 0, max_iter = 100;
+        \\ details
+        status = gsl_root_test_interval (x_lo, x_hi, 0, 0.001);
+    \end{lstlisting}
+    \begin{tabular}{p\columnwidth}
+        知，当误差绝对值小于0.001（或迭代次数超过100次）时结束迭代
+    \end{tabular}
+\end{document}

@@ -31,4 +31,4 @@ def Manderbrot(xCenter, yCenter, width, N):
     plt.show()
 
 
-Manderbrot(-0.7214576, 0.2421354, 0.02, 3000)
+Manderbrot(-0.7214276, 0.2421354, 0.005, 3000)

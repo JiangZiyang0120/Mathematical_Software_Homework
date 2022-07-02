@@ -23,6 +23,6 @@ report:
 	evince ${FILENAME}.pdf
 build:
 	# 需下载 cython包
-	pip install cython
+	# pip install cython
 	python3 ${SETUPNAME}.py build_ext --inplace
 	python3 ${PYTHONNAME}.py
