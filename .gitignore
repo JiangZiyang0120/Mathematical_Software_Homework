@@ -11,6 +11,7 @@ CMakeLists.txt
 main.cpp
 out/*
 idea/*
+.idea/*
 /homework3/杨泽加_homework3.aux
 /homework3/杨泽加_homework3.bbl
 /homework3/杨泽加_homework3.blg
@@ -31,4 +32,5 @@ idea/*
 /homework5/report.out
 /homework5/report.pdf
 /homework5/report.synctex.gz
+/homework4/.idea/
 /homework4/.idea/
