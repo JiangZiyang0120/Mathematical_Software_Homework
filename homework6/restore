@@ -1,0 +1,22 @@
+    \begin{tikzpicture}[-stealth,scale=2,transform shape]
+
+        \node[end] (s) at (0,0) {Start};
+        \node[inout] (i1) [below=of s] {Input $a,b,c$};
+        \node[decide] (d1) [below=of i1] {Decide $b^2-4ac>0$};
+        \node[exec] (s1) [below = of d1] {$x=\frac{-b}{2a}$};
+        \node[exec] (s2) [left = of s1] {$
+                x_1 = -\frac{(b-\sqrt{b^2-4ac})}{2a}\\
+                x_2 = -\frac{(b+\sqrt{b^2-4ac})}{2a}
+            $};
+        \node[decide] (d2) [right = of s1] {$b^2-4ac=0$}
+        \node[inout] (o1) [below = of s2] {Output $x_1,x_2$}
+        \node[inout] (o2) [below = of s1] {Output $x$};
+        \node[inout] (o3) [below = of d2] {No Solution}
+        \node[endn] (e) [below=of o2] {End};
+
+        \graph{
+            (s) -> (i1) -> (d1) ->["yes"] (s2) -> (o1) -> (e)
+            (d1) ->["no"] (d2) ->["yes"] (s1) -> (o2) -> (e)
+            (d2) ->["no"] (o3) -> (e)
+        }
+    \end{tikzpicture}
