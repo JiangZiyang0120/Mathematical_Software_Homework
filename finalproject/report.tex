@@ -6,27 +6,51 @@
 
 % Packages
 \usepackage{graphicx}
-\usepackage{epstopdf}
+\usepackage{float}
+\usepackage{subfigure}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\usepackage[backref]{hyperref}
+\usepackage{cite}
+\usepackage{stmaryrd}
+\usepackage{epstopdf}
 \usepackage{tikz}
 \usepackage{ctex}
 \usepackage{amssymb}
 \usepackage{wasysym}
 \usetikzlibrary{shapes,positioning}
+\usepackage{listings}
 \tikzstyle{inout}=  [draw,
-                    trapezium,
-                    trapezium left angle = 65,
-                    trapezium right angle = 115,
-                    trapezium stretches,
-                    ] %%输入输出框
+trapezium,
+trapezium left angle = 65,
+trapezium right angle = 115,
+trapezium stretches,
+] %%输入输出框
 \tikzstyle{endn}=   [draw,
-                    rounded rectangle,
-                    ]   %%起止框
+rounded rectangle,
+]   %%起止框
 \tikzstyle{exec}=   [draw,
-                    rectangle,]    %%执行框 execute
+rectangle,]    %%执行框 execute
 \tikzstyle{judge}= [draw,
-                    diamond,
-                    inner sep=0,]   %%判断框
+diamond,
+inner sep=0,]   %%判断框
+\lstset{
+    basicstyle          =   \sffamily,          % 基本代码风格
+    keywordstyle        =   \bfseries,          % 关键字风格
+    commentstyle        =   \rmfamily\itshape,  % 注释的风格，斜体
+    stringstyle         =   \ttfamily,  % 字符串风格
+    flexiblecolumns,
+    breaklines          =   true, %对过长的代码自动换行
+    numbers             =   left,   % 行号的位置在左边
+    showspaces          =   false,  % 是否显示空格，显示了有点乱，所以不现实了
+    numberstyle         =   \zihao{-5}\ttfamily,    % 行号的样式，小五号，tt等宽字体
+    showstringspaces    =   false,
+    captionpos          =   t,      % 这段代码的名字所呈现的位置，t指的是top上面
+    frame               =   lrtb,   % 显示边框
+}
+
 
 
 \title{一元二次方程在实数域上的求解}
@@ -35,7 +59,7 @@
 
 % Document
 \begin{document}
-
+    \bibliographystyle{IEEEtran}
     \maketitle
 
     \begin{abstract}
@@ -45,7 +69,7 @@
 
 
     \section{引言}\label{S1}
-    对一维非线性方程的求根，算法库 gsl 为我们提供了二分法、牛顿法及 Steffenson 加速收敛法。
+    对一维非线性方程的求根，算法库 gsl \cite{GSLhandwriting}为我们提供了二分法、牛顿法及 Steffenson 加速收敛法。
     本文将结合二分法和牛顿法展开讨论。 \\
     由于所有一维非线性方程    \\
     \begin{equation}
@@ -130,7 +154,7 @@
 
         \draw[-latex] (start) edge (input) (input) edge (init) (init) edge (interval_judge);
         \draw[-latex] (interval_judge) edge node[pos=0.25,fill=white,inner sep=2pt]{Yes} (calc_mid)
-                      (interval_judge) -| node[pos=0.25,fill=white,inner sep=2pt]{No} (result);
+        (interval_judge) -| node[pos=0.25,fill=white,inner sep=2pt]{No} (result);
         \draw[-latex] (calc_mid) edge (judge_mid);
         \draw[-latex] (judge_mid) -| node[pos=0.25,fill=white,inner sep=2pt]{Yes} (set_a);
         \draw[-latex] (judge_mid) -| node[pos=0.25,fill=white,inner sep=2pt]{No} (set_b);
@@ -141,8 +165,9 @@
         \draw (judge_k) edge  (middle);
         \draw[-latex] (middle) |- node[pos=0.25,fill=white,inner sep=2pt]{No} (interval_judge);
         \draw[-latex] (judge_k_deny_output) edge (end)
-                      (result) |- (end);
+        (result) |- (end);
     \end{tikzpicture}
+
     \subsection{牛顿法}\label{S3.2}
     \begin{tikzpicture}[font=\small,thick, scale=0.1]
         \node[endn] (start) {开始};
@@ -157,14 +182,29 @@
 
         \draw[-latex] (start) edge (input) (input) edge (judge1);
         \draw[-latex] (judge1) edge node[pos=0.25,fill=white,inner sep=2pt]{Yes} (fail)
-                      (judge1) edge node[pos=0.25,fill=white,inner sep=2pt]{No} (item);
+        (judge1) edge node[pos=0.25,fill=white,inner sep=2pt]{No} (item);
         \draw[-latex] (fail) |- (end);
         \draw[-latex] (item) edge (judge2)
-                      (judge2) edge node[pos=0.25,fill=white,inner sep=2pt]{Yes} (output)
-                      (output) edge (end);
+        (judge2) edge node[pos=0.25,fill=white,inner sep=2pt]{Yes} (output)
+        (output) edge (end);
         \draw[-latex] (judge2) -| node[pos=0.25,fill=white,inner sep=2pt]{No} (set_x);
         \draw[-latex] (set_x) |- (judge1);
     \end{tikzpicture}
-    \section{算法收敛性的比较}\label{S4}
 
+
+    \section{算法收敛性的比较}\label{S4}
+    比较两种方法对1——10000的数字的求平方根结果如下：
+    \begin{lstlisting}
+10000次二分法迭代用时为850毫秒
+10000次牛顿法迭代用时为1662毫秒
+    \end{lstlisting}
+    迭代次数的差异如下：
+    \begin{figure}[H]
+        \centering
+        \includegraphics{./src/item}
+    \end{figure}
+    由于我迭代的起始区间均为迭代区域的最大值 $\max(a,b)$。牛顿法对初值较为敏感，故迭代次数较多。
+    而在起初区间较小时，牛顿法的效果则好于二分法。\\
+    因此我们在根的估计区间较小时使用牛顿法，否则建议使用二分法。
+    \bibliography{reference}
 \end{document}
